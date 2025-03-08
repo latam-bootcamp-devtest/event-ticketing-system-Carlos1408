@@ -10,11 +10,7 @@ export default function EventCard({ event }) {
       onClick={() => navigate(`./${event.id}`)}
     >
       <div className="flex flex-column gap-3">
-        <Image
-          src="http://localhost:3000/concert.jpg"
-          alt="Image"
-          width="250"
-        />
+        <Image src={event.eventImage} alt="Image" width="250" />
         <div>Event: {event.name}</div>
         <div>Event: {event.date}</div>
         {event.availableSeats ? (

@@ -58,11 +58,7 @@ export default function EventDetails() {
   return event ? (
     <div className="m-8 grid gap-4">
       <Card className="col-3">
-        <Image
-          src="http://localhost:3000/concert.jpg"
-          alt="Image"
-          width="250"
-        />
+        <Image src={event.eventImage} alt="Image" width="250" />
       </Card>
       <Card footer={footer} className="col" title={event.name}>
         <div className="flex flex-column">
