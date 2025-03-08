@@ -12,5 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.use("/events", require("./routes/event.routes"));
+app.use("/tickets", require("./routes/ticket.routes"));
 
 module.exports = app;

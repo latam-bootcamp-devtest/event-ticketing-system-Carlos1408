@@ -13,9 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model event {
+model Event {
   id             Int       @id @default(autoincrement())
   name           String?
   date           DateTime?
   availableSeats Int?
+
+  tickets Ticket[]
+}
+
+model Ticket {
+  ticketId Int @id @default(autoincrement())
+  userId   Int
+  eventId  Int
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
