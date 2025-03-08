@@ -13,5 +13,6 @@ app.use(morgan("dev"));
 
 app.use("/events", require("./routes/event.routes"));
 app.use("/tickets", require("./routes/ticket.routes"));
+app.use("/users", require("./routes/user.routes"));
 
 module.exports = app;

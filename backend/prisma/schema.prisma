@@ -28,4 +28,10 @@ model Ticket {
   eventId  Int
 
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  tickets Ticket[]
 }
