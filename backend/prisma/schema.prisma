@@ -36,5 +36,6 @@ model Ticket {
 
 model User {
   id      Int      @id @default(autoincrement())
+  name    String   @unique
   tickets Ticket[]
 }

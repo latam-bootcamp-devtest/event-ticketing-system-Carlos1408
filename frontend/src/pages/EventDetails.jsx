@@ -1,18 +1,43 @@
 import { Card } from "primereact/card";
+import { InputText } from "primereact/inputtext";
+import { InputNumber } from "primereact/inputnumber";
 import { Image } from "primereact/image";
 import { Button } from "primereact/button";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import eventService from "../services/event.service";
+import ticketService from "../services/ticket.service";
 import { useFormik } from "formik";
 
 export default function EventDetails() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   const getData = () => {
-    eventService.getById(id).then((data) => setEvent(data));
+    eventService.getById(id).then((data) => {
+      setEvent(data);
+      form.setFieldValue("eventId", data.id);
+    });
   };
+
+  const form = useFormik({
+    initialValues: {
+      eventId: "",
+      customerName: "",
+      ticketQuantity: 1,
+    },
+    onSubmit: (values) => {
+      values.eventId = event.id;
+      console.log(values);
+      for (let i = 0; i < values.ticketQuantity; i++) {
+        ticketService.bookTicket(values).then((data) => {
+          console.log(data);
+          getData();
+        });
+      }
+    },
+  });
 
   useEffect(() => {
     getData();
@@ -20,7 +45,14 @@ export default function EventDetails() {
 
   const footer = (
     <div className="p-2">
-      <Button label="Book Ticket" />
+      <Button
+        label={showForm ? "Book Now!" : "Book Ticket"}
+        onClick={() => {
+          if (showForm) {
+            form.handleSubmit();
+          } else setShowForm(true);
+        }}
+      />
     </div>
   );
 
@@ -47,6 +79,34 @@ export default function EventDetails() {
           <div className="w-full">
             <p>Available seats: {event.availableSeats}</p>
           </div>
+
+          {showForm ? (
+            <div>
+              <div className="field">
+                <label htmlFor="customerName">Name</label>
+                <InputText
+                  id="customerName"
+                  value={form.values.customerName}
+                  onChange={form.handleChange}
+                  className="w-full"
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="ticketQuantity">Total tickets</label>
+                <InputNumber
+                  id="ticketQuantity"
+                  showButtons
+                  min={1}
+                  max={10}
+                  value={form.values.ticketQuantity}
+                  onChange={(e) =>
+                    form.setFieldValue("ticketQuantity", e.value)
+                  }
+                  className="w-full"
+                />
+              </div>
+            </div>
+          ) : null}
         </div>
       </Card>
     </div>

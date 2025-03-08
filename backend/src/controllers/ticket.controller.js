@@ -1,4 +1,5 @@
 const prisma = require("../lib/db");
+const { connect } = require("../routes/event.routes");
 
 const create = async (req, res) => {
   try {
@@ -11,6 +12,36 @@ const create = async (req, res) => {
       },
     });
     res.status(201).json(newticket);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
+
+const bookTicket = async (req, res) => {
+  try {
+    const { eventId, customerName } = req.body;
+    const user = await prisma.user.findFirst({ where: { name: customerName } });
+    const newTicket = await prisma.ticket.create({
+      data: {
+        user: {
+          connect: { id: user.id },
+        },
+        event: {
+          connect: { id: parseInt(eventId) },
+        },
+      },
+    });
+    const event = await prisma.event.findFirst({
+      where: { id: parseInt(eventId) },
+    });
+    await prisma.event.update({
+      where: { id: eventId },
+      data: {
+        availableSeats: event.availableSeats - 1,
+      },
+    });
+    return newTicket;
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
@@ -33,4 +64,4 @@ const deleteById = async (req, res) => {
   }
 };
 
-module.exports = { create, deleteById };
+module.exports = { create, deleteById, bookTicket };

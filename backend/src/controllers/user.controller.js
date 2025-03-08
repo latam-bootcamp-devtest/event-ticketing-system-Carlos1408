@@ -7,7 +7,7 @@ const getAll = async (req, res) => {
     if (!page) page = 1;
     if (!pageSize) pageSize = 10;
     const user = await prisma.user.findFirst({
-      where: { id: userId },
+      where: { id: parseInt(userId) },
       include: { tickets: { include: { event: true } } },
     });
 
@@ -22,9 +22,6 @@ const getAll = async (req, res) => {
     });
 
     const response = {
-      currentPage: page,
-      pageSize: pageSize,
-      totalPages: 0,
       events: events,
     };
     res.json(response);
@@ -34,4 +31,16 @@ const getAll = async (req, res) => {
   }
 };
 
-module.exports = { getAll };
+const create = async (req, res) => {
+  try {
+    const user = req.body;
+    delete user.id;
+    const newUser = await prisma.user.create({ data: user });
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
+
+module.exports = { getAll, create };
