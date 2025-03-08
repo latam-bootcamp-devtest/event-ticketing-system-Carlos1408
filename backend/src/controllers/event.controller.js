@@ -30,6 +30,17 @@ const getAll = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await prisma.event.findFirst({ where: { id: parseInt(id) } });
+    res.status(200).json(event);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const event = req.body;
@@ -42,4 +53,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { getAll, create };
+module.exports = { getAll, getById, create };

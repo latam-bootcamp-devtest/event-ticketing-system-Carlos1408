@@ -12,4 +12,14 @@ const getAll = async () => {
   }
 };
 
-export default { getAll };
+const getById = async (id) => {
+  try {
+    const response = await api.get(id);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export default { getAll, getById };
