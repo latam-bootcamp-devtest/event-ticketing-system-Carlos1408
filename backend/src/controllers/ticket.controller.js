@@ -19,7 +19,7 @@ const create = async (req, res) => {
 const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await ticketService.deleteById(id);
+    const result = await ticketService.deleteById(parseInt(id));
     if (!result) throw new Error("Error");
     res.sendStatus(204);
   } catch (error) {

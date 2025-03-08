@@ -34,7 +34,7 @@ const create = async (eventId, customerName, ticketQuantity) => {
 
 const deleteById = async (id) => {
   try {
-    const ticket = await prisma.ticket.findFirst({ where: { id } });
+    const ticket = await prisma.ticket.findFirst({ where: { ticketId: id } });
     if (!id) throw new Error("Missing id");
     if (!ticket) throw new Error("Not found");
     await prisma.ticket.delete({

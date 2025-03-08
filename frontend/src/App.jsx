@@ -3,6 +3,7 @@ import EventsList from "./pages/EventsList";
 import EventDetails from "./pages/EventDetails";
 import PastEvents from "./pages/PastEvents";
 import Events from "./pages/admin/Events";
+import EventsForm from "./pages/admin/EventsForm";
 
 function App() {
   return (
@@ -15,7 +16,10 @@ function App() {
         </Route>
         <Route path="admin">
           <Route index element={<Navigate to="events" />} />
-          <Route path="events" element={<Events />} />
+          <Route path="events">
+            <Route index element={<Events />} />
+            <Route path="create" element={<EventsForm />} />
+          </Route>
         </Route>
         <Route path="users">
           <Route path=":id/events" element={<PastEvents />} />

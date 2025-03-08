@@ -22,6 +22,17 @@ const getById = async (id) => {
   }
 };
 
+const create = async (event) => {
+  try {
+    const response = await api.post("", event);
+    if (response.status == 201) return true;
+    else throw new Error("Error");
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const deleteById = async (id) => {
   try {
     const response = await api.delete(`${id}`);
@@ -33,4 +44,4 @@ const deleteById = async (id) => {
   }
 };
 
-export default { getAll, getById, deleteById };
+export default { getAll, getById, deleteById, create };
