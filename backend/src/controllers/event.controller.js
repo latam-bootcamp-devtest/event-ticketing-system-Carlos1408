@@ -1,21 +1,14 @@
 const prisma = require("../lib/db");
+const eventService = require("../services/event.service");
 
 const getAll = async (req, res) => {
   try {
     let { page, pageSize } = req.query;
     if (!page) page = 1;
     if (!pageSize) pageSize = 10;
-    const totalEvents = await prisma.event.count();
     let events = [];
-    if (totalEvents > pageSize)
-      events = await prisma.event.findMany({
-        take: pageSize,
-        skip: (page - 1) * pageSize,
-      });
-    else {
-      events = await prisma.event.findMany({});
-      pageSize = events.length;
-    }
+    events = await eventService.getAll();
+    const totalEvents = events.length;
 
     const response = {
       currentPage: page,
@@ -33,7 +26,7 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const event = await prisma.event.findFirst({ where: { id: parseInt(id) } });
+    const event = await eventService.getById(id);
     res.status(200).json(event);
   } catch (error) {
     console.log(error);
@@ -45,7 +38,7 @@ const create = async (req, res) => {
   try {
     const event = req.body;
     delete event.id;
-    const newEvent = await prisma.event.create({ data: event });
+    const newEvent = await eventService.create(event);
     res.status(201).json(newEvent);
   } catch (error) {
     console.log(error);

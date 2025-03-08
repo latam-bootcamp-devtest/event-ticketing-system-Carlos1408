@@ -1,4 +1,5 @@
 const prisma = require("../lib/db");
+const userService = require("../services/user.service");
 
 const getAll = async (req, res) => {
   try {
@@ -6,22 +7,8 @@ const getAll = async (req, res) => {
     let { page, pageSize } = req.query;
     if (!page) page = 1;
     if (!pageSize) pageSize = 10;
-    const user = await prisma.user.findFirst({
-      where: { id: parseInt(userId) },
-      include: { tickets: { include: { event: true } } },
-    });
 
-    const events = user.tickets.map((ticket) => {
-      return {
-        ticketId: ticket.id,
-        userId: ticket.userId,
-        eventId: ticket.eventId,
-        ticketQuantity: ticket.ticketQuantity,
-        name: ticket.event.name,
-        date: ticket.event.date,
-        eventImage: ticket.event.eventImage,
-      };
-    });
+    const events = await userService.getAll(userId);
 
     const response = {
       events: events,
@@ -37,7 +24,7 @@ const create = async (req, res) => {
   try {
     const user = req.body;
     delete user.id;
-    const newUser = await prisma.user.create({ data: user });
+    const newUser = await userService.create(user);
     res.status(201).json(newUser);
   } catch (error) {
     console.log(error);

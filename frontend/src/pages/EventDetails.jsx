@@ -35,6 +35,7 @@ export default function EventDetails() {
       ticketService.bookTicket(values).then((data) => {
         console.log(data);
         refreshPage();
+        setShowForm(false);
       });
     },
   });
@@ -98,7 +99,7 @@ export default function EventDetails() {
                     id="ticketQuantity"
                     showButtons
                     min={1}
-                    max={10}
+                    max={event.availableSeats}
                     value={form.values.ticketQuantity}
                     onChange={(e) =>
                       form.setFieldValue("ticketQuantity", e.value)
