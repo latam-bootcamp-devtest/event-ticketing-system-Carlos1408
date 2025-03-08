@@ -9,7 +9,7 @@ export default function EventCard({ event }) {
       className="m-4 cursor-pointer"
       onClick={() => navigate(`./${event.id}`)}
     >
-      <div className="flex flex-column">
+      <div className="flex flex-column gap-3">
         <Image
           src="http://localhost:3000/concert.jpg"
           alt="Image"
@@ -17,7 +17,11 @@ export default function EventCard({ event }) {
         />
         <div>Event: {event.name}</div>
         <div>Event: {event.date}</div>
-        <div>Available seats: {event.availableSeats}</div>
+        {event.availableSeats ? (
+          <div>Available seats: {event.availableSeats}</div>
+        ) : (
+          <div>Ticket quantity: {event.ticketQuantity}</div>
+        )}
       </div>
     </Card>
   );

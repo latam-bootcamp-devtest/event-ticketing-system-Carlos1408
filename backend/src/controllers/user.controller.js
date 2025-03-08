@@ -15,7 +15,8 @@ const getAll = async (req, res) => {
       return {
         ticketId: ticket.id,
         userId: ticket.userId,
-        events: ticket.eventId,
+        eventId: ticket.eventId,
+        ticketQuantity: ticket.ticketQuantity,
         name: ticket.event.name,
         date: ticket.event.date,
       };

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import EventsList from "./pages/EventsList";
 import EventDetails from "./pages/EventDetails";
+import PastEvents from "./pages/PastEvents";
 
 function App() {
   return (
@@ -9,7 +10,10 @@ function App() {
         <Route index element={<Navigate to="events" />} />
         <Route path="events">
           <Route index element={<EventsList />} />
-          <Route index path=":id" element={<EventDetails />} />
+          <Route path=":id" element={<EventDetails />} />
+        </Route>
+        <Route path="users">
+          <Route path=":id/events" element={<PastEvents />} />
         </Route>
       </Routes>
     </BrowserRouter>
