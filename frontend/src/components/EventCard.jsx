@@ -7,7 +7,7 @@ export default function EventCard({ event }) {
   return (
     <Card
       className="m-4 cursor-pointer"
-      onClick={() => navigate(`./${event.id}`)}
+      onClick={() => navigate(`/events/${event.id ?? event.eventId}`)}
     >
       <div className="flex flex-column gap-3">
         <Image src={event.eventImage} alt="Image" width="250" />
