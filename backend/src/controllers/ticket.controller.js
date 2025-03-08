@@ -20,10 +20,13 @@ const create = async (req, res) => {
 
 const bookTicket = async (req, res) => {
   try {
-    const { eventId, customerName } = req.body;
-    const user = await prisma.user.findFirst({ where: { name: customerName } });
+    const { eventId, customerName, ticketQuantity } = req.body;
+    let user = await prisma.user.findFirst({ where: { name: customerName } });
+    if (!user)
+      user = await prisma.user.create({ data: { name: customerName } });
     const newTicket = await prisma.ticket.create({
       data: {
+        ticketQuantity: ticketQuantity,
         user: {
           connect: { id: user.id },
         },
@@ -38,7 +41,7 @@ const bookTicket = async (req, res) => {
     await prisma.event.update({
       where: { id: eventId },
       data: {
-        availableSeats: event.availableSeats - 1,
+        availableSeats: event.availableSeats - ticketQuantity,
       },
     });
     return newTicket;

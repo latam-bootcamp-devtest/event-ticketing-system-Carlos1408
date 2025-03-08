@@ -26,9 +26,10 @@ model Event {
 }
 
 model Ticket {
-  ticketId Int @id @default(autoincrement())
-  userId   Int
-  eventId  Int
+  ticketId       Int @id @default(autoincrement())
+  userId         Int
+  eventId        Int
+  ticketQuantity Int @default(1)
 
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)

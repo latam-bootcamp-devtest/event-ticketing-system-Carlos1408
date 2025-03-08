@@ -14,7 +14,8 @@ export default function EventDetails() {
   const [event, setEvent] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  const getData = () => {
+  const refreshPage = () => {
+    form.setValues(form.initialValues);
     eventService.getById(id).then((data) => {
       setEvent(data);
       form.setFieldValue("eventId", data.id);
@@ -30,17 +31,15 @@ export default function EventDetails() {
     onSubmit: (values) => {
       values.eventId = event.id;
       console.log(values);
-      for (let i = 0; i < values.ticketQuantity; i++) {
-        ticketService.bookTicket(values).then((data) => {
-          console.log(data);
-          getData();
-        });
-      }
+      ticketService.bookTicket(values).then((data) => {
+        console.log(data);
+        refreshPage();
+      });
     },
   });
 
   useEffect(() => {
-    getData();
+    refreshPage();
   }, []);
 
   const footer = (
