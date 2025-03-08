@@ -2,8 +2,13 @@ import { Card } from "primereact/card";
 import { Image } from "primereact/image";
 import { useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
+import eventService from "../services/event.service";
 
-export default function EventCard({ event, admin = false }) {
+export default function EventCard({
+  event,
+  admin = false,
+  handleDelete = (id) => {},
+}) {
   const navigate = useNavigate();
   const id = event.id ?? event.eventId;
   const footer = (
@@ -20,6 +25,7 @@ export default function EventCard({ event, admin = false }) {
         severity="danger"
         onClick={() => {
           console.log(id);
+          eventService.deleteById(id);
         }}
       />
     </div>

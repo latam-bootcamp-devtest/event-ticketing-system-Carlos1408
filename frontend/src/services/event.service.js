@@ -22,4 +22,15 @@ const getById = async (id) => {
   }
 };
 
-export default { getAll, getById };
+const deleteById = async (id) => {
+  try {
+    const response = await api.delete(`${id}`);
+    if (response.status == 204) return true;
+    else throw new Error("Error");
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export default { getAll, getById, deleteById };

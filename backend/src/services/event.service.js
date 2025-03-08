@@ -31,4 +31,16 @@ const create = async (event) => {
   }
 };
 
-module.exports = { getAll, getById, create };
+const deleteById = async (id) => {
+  try {
+    const event = await prisma.event.findFirst({ where: { id } });
+    if (!event) throw new Error("Not found");
+    await prisma.event.delete({ where: { id } });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+module.exports = { getAll, getById, create, deleteById };

@@ -46,4 +46,16 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getById, create };
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await eventService.deleteById(parseInt(id));
+    if (!result) throw new Error("Error");
+    res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ error });
+  }
+};
+
+module.exports = { getAll, getById, create, deleteById };
