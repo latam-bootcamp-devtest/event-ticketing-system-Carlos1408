@@ -19,6 +19,7 @@ const getAll = async (req, res) => {
         ticketQuantity: ticket.ticketQuantity,
         name: ticket.event.name,
         date: ticket.event.date,
+        eventImage: ticket.event.eventImage,
       };
     });
 
