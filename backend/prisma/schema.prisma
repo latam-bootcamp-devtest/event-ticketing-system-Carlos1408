@@ -18,6 +18,8 @@ model Event {
   name           String?
   date           DateTime?
   availableSeats Int?
+  ticketPrice    Float     @default(10)
+  eventImage     String    @default("https://via.placeholder.com/600/92c952")
 
   tickets Ticket[]
 }
