@@ -13,4 +13,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = {};
+module.exports = { create };
